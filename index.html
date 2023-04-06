@@ -1,3 +1,36 @@
+<?php 
+
+include("config/connexion.php");//connexion
+// insertion 
+if(isset($_POST["presentation_generale"])){
+
+	extract($_POST);//extrait les donnees en variables
+	
+	$sqlQuery='INSERT INTO administration(presentation_generale,plan_lycee,mot_proviseur) VALUES (?,?,?)';
+	
+	$insert_administration=$pdo->prepare($sqlQuery);
+	
+	$insert_administration->execute([$presentation_generale,$plan_lycee,$mot_proviseur]);
+
+	//recueper les donnees de la tale administration
+}
+		$recuperation = $pdo->query("SELECT * FROM administration");
+		$donnees = $recuperation->fetchAll(PDO::FETCH_OBJ);
+
+		if(isset($_GET['id_administration'])){
+			$reponse = $pdo->query("DELETE  FROM administration WHERE id='".$_GET['id_administration']."'");//supprimer ...
+			header("Location: index.php");
+		}
+		
+	
+	//header("Location: ajouter.php");
+	
+	else{
+		echo '';
+	}
+	
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +40,7 @@
 </head>
 <body>
 
-<center><h2 class="text"><img src="image/dada1.jpg"></h2></center>
+<center><h2 class="text"><img src="dada1.jpg"></h2></center>
 
 
 		<center>
@@ -24,7 +57,33 @@
 		<input type="submit" value="enregistrer">
 	
 		</form> 
+	
+	<table class ="table-striped">
+	<th>
+             presentation_generale
+         </th>
+         <th>
+            plan_lycee
+        </th>
+		<th>
+            mot_proviseur
+        </th>
+        <th colspan"2" style="tet-align:center;">
+		   
+            
+        </th>
+     </tr>
 
+<?php foreach($donnees as $value){?>
+     <tr>
+        <td><?php echo $value->presentation_generale; ?> </td>
+        <td><?php echo $value->plan_lycee; ?> </td>
+        <td><?php echo $value->mot_proviseur; ?> </td>
+		<td><a href="index.php?id_administration=<?php echo $value->id; ?>">Supprimer</a></td>
+		<td><a href="modifier.php?id_administration=<?php echo $value->id; ?>">modifier</a></td>
+
+     </tr>
+<?php }?>
 
 </table>
 
