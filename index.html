@@ -1,35 +1,3 @@
-<?php 
-
-include("config/connexion.php");//connexion
-// insertion 
-if(isset($_POST["presentation_generale"])){
-
-	extract($_POST);//extrait les donnees en variables
-	
-	$sqlQuery='INSERT INTO administration(presentation_generale,plan_lycee,mot_proviseur) VALUES (?,?,?)';
-	
-	$insert_administration=$pdo->prepare($sqlQuery);
-	
-	$insert_administration->execute([$presentation_generale,$plan_lycee,$mot_proviseur]);
-
-	//recueper les donnees de la tale administration
-}
-		$recuperation = $pdo->query("SELECT * FROM administration");
-		$donnees = $recuperation->fetchAll(PDO::FETCH_OBJ);
-
-		if(isset($_GET['id_administration'])){
-			$reponse = $pdo->query("DELETE  FROM administration WHERE id='".$_GET['id_administration']."'");//supprimer ...
-			header("Location: index.php");
-		}
-		
-	
-	//header("Location: ajouter.php");
-	
-	else{
-		echo '';
-	}
-	
-?>
 
 <!DOCTYPE html>
 <html>
